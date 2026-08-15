@@ -1,0 +1,4 @@
+{
+  "diff": "diff --git a/app.js b/app.js\n--- /dev/null\n+++ b/app.js\n@@ -0,0 +1,4 @@\n+const apiKey = \"sk_live_ABCDEF1234567890\";\n+console.log(\"starting up\");\n+const result = eval(userInput);\n+// TODO: sanitize inputs\n",
+  "options": { "provider": "llm", "maxFindings": 100 }
+}

@@ -1,0 +1,44 @@
+# Fly.io configuration.
+#
+# CRITICAL: all state (jobs, cache, idempotency, rate-limit buckets) is in-memory
+# in a single process, so this MUST run as exactly one always-on instance:
+#   - auto_stop_machines = false  -> never scale to zero (would drop all state)
+#   - min_machines_running = 1    -> always one instance up (reachable for 96h)
+#   - do NOT scale to multiple machines (state would fragment across them)
+#
+# Rename `app` to a unique name if this one is taken (or let `fly launch` set it).
+
+app = "xsolla-diff-review"
+primary_region = "cdg"
+
+[build]
+
+[env]
+  PORT = "8080"
+  LLM_MODEL = "openai/gpt-oss-120b"
+  GROQ_BASE_URL = "https://api.groq.com/openai/v1"
+  LLM_TIMEOUT_MS = "30000"
+  # BEARER_TOKEN and GROQ_API_KEY are set as secrets, NOT here (see README).
+
+[http_service]
+  internal_port = 8080
+  force_https = true
+  auto_stop_machines = false
+  auto_start_machines = true
+  min_machines_running = 1
+
+  [http_service.concurrency]
+    type = "requests"
+    soft_limit = 200
+    hard_limit = 250
+
+  [[http_service.checks]]
+    method = "GET"
+    path = "/health"
+    interval = "30s"
+    timeout = "5s"
+    grace_period = "10s"
+
+[[vm]]
+  size = "shared-cpu-1x"
+  memory = "256mb"

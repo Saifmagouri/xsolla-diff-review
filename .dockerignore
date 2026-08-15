@@ -1,0 +1,11 @@
+node_modules
+dist
+.env
+.git
+.gitignore
+test
+examples
+scripts
+*.log
+*.md
+.claude
