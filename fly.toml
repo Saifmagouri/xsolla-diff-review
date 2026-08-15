@@ -8,7 +8,7 @@
 #
 # Rename `app` to a unique name if this one is taken (or let `fly launch` set it).
 
-app = "xsolla-diff-review"
+app = "xsolla-diff-review-saif"
 primary_region = "cdg"
 
 [build]
